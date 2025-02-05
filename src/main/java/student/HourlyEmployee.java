@@ -26,7 +26,7 @@ public class HourlyEmployee extends Employee {
         super(name, id, payRate,
                 BigDecimal.valueOf(ytdEarnings),
                 BigDecimal.valueOf(ytdTaxesPaid),
-                pretaxDeductions, EmployeeType.Hourly);
+                pretaxDeductions, EmployeeType.HOURLY);
     }
 
 

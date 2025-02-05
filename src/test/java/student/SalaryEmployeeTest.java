@@ -52,7 +52,7 @@ class SalaryEmployeeTest {
 
         @Test
         void getEmployeeType () {
-        assertEquals("Salary", salaryEmployee.getEmployeeType());
+        assertEquals("SALARY", salaryEmployee.getEmployeeType());
         }
 
         @Test

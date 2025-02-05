@@ -25,7 +25,7 @@ public class SalaryEmployee extends Employee {
         super(name, id, payRate,
                 BigDecimal.valueOf(ytdEarnings),
                 BigDecimal.valueOf(ytdTaxesPaid),
-                pretaxDeductions, EmployeeType.Salary);
+                pretaxDeductions, EmployeeType.SALARY);
     }
 
     @Override

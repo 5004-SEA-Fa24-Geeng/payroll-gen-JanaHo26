@@ -52,7 +52,7 @@ class HourlyEmployeeTest {
 
     @Test
     void getEmployeeType() {
-        assertEquals("Hourly", hourlyEmployee.getEmployeeType());
+        assertEquals("HOURLY", hourlyEmployee.getEmployeeType());
     }
 
     @Test
