@@ -4,12 +4,15 @@ import java.math.BigDecimal;
 
 
 public class HourlyEmployee extends Employee {
+    /** Overtime pay rate multiplier (1.5x regular pay). */
     private static final double OVERTIME_RATE = 1.5;
+
+    /** Standard number of hours before overtime applied. */
     private static final double REGULAR_HOURS = 40.0;
 
 
     /**
-     * creates a new hourly employee
+     * creates a new hourly employee.
      * @param name employee name
      * @param id employee id
      * @param payRate hourly pay rate
@@ -34,8 +37,7 @@ public class HourlyEmployee extends Employee {
 
         if (hoursWorked <= REGULAR_HOURS) {
             regularPay = BigDecimal.valueOf(getPayRate() * hoursWorked);
-        }
-        else {
+        } else {
             regularPay = BigDecimal.valueOf(getPayRate() * REGULAR_HOURS);
             double overtimeHours = hoursWorked - REGULAR_HOURS;
             overtimePay = BigDecimal.valueOf(overtimeHours * getPayRate() * OVERTIME_RATE);

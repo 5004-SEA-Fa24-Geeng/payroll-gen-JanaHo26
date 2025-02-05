@@ -1,9 +1,11 @@
 package student;
 
 /**
- * types of employees
+ * types of employees.
  */
 public enum EmployeeType {
-    Hourly,
-    Salary
+    /** employee paid by the hour. */
+    HOURLY,
+    /** employee paid a fixed salary. */
+    SALARY
 }

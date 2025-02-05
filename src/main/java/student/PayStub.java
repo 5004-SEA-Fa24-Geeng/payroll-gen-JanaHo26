@@ -1,14 +1,16 @@
 package student;
 
 /**
- * pay stub including payment details for a pay period
+ * pay stub including payment details for a pay period.
  */
 public class PayStub implements IPayStub {
+    /** The gross pay amount for the pay period. */
     private double pay;
+    /** The taxes paid amount for the pay period. */
     private double taxesPaid;
 
     /**
-     * create a new paystub
+     * create a new paystub.
      * @param pay the gross pay amount
      * @param taxesPaid the taxes paid amount
      */

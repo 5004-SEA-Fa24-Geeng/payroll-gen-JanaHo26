@@ -2,11 +2,13 @@ package student;
 
 
 public class TimeCard implements ITimeCard {
+    /** The number of hours worked in this time period. */
     private double hoursWorked;
+    /** The employee's id. */
     private String employeeID;
 
     /**
-     * Create new timecard
+     * Create new timecard.
      * @param hoursWorked the number of hours worked
      * @param employeeID the employee ID
      */

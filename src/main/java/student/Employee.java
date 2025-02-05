@@ -4,24 +4,32 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 /**
- * Abstract base class for all employee types
+ * Abstract base class for all employee types.
  */
 public abstract class Employee implements IEmployee {
+    /** The employee's name. */
     private String name;
+    /** The employee's id. */
     private String id;
+    /** The employee's pay rate per hour or salary depending on employee type. */
     private double payRate;
+    /** The employee's year to date earnings in dollars. */
     private BigDecimal ytdEarnings;
+    /** The employee's year to dat taxes paid. */
     private BigDecimal ytdTaxesPaid;
+    /** The employee's pretax deductions. */
     private double pretaxDeductions;
+    /** The type of employee (hourly or salary). */
     private EmployeeType type;
 
-    // Tax constants
+    /** Tax rate applied to earnings after pretax deductions. */
     protected static final BigDecimal TAX_RATE = new BigDecimal("0.2265");
+    /** Scale for decimal calculations. */
     protected static final int SCALE = 2;
 
 
     /**
-     * create new employee
+     * create new employee.
      *
      * @param name             the employee name
      * @param id               employee id
@@ -29,6 +37,7 @@ public abstract class Employee implements IEmployee {
      * @param ytdEarnings      year to date earnings
      * @param ytdTaxesPaid     year to date taxes paid
      * @param pretaxDeductions pretax deductions
+     * @param type             the type of employee
      * @throws IllegalArgumentException check invalid parameters
      */
     public Employee(String name, String id, double payRate,
@@ -98,7 +107,7 @@ public abstract class Employee implements IEmployee {
     }
 
     /**
-     * the type of employee
+     * the type of employee.
      * @return this will return hourly or salary
      */
     @Override
@@ -113,24 +122,16 @@ public abstract class Employee implements IEmployee {
         }
 
 
-        /**
-         * calculate gross pay
-         */
+        //calculates and returns the gross pays
         BigDecimal grossPay = calculateGrossPay(hoursWorked);
 
-        /**
-         * subtract pretax deductions
-         */
+        //subtract pretax deductions from gross pay
         BigDecimal afterDeductions = grossPay.subtract(BigDecimal.valueOf(pretaxDeductions));
 
-        /**
-         * Calculate taxes
-         */
+        //Calculate taxes based on earnings after deductions
         BigDecimal taxes = afterDeductions.multiply(TAX_RATE).setScale(SCALE, RoundingMode.HALF_UP);
 
-        /**
-         * Calculate net pay
-         */
+        //Calculate net pay after taxes
         BigDecimal netPay = afterDeductions.subtract(taxes);
 
         // YTD values
@@ -138,7 +139,7 @@ public abstract class Employee implements IEmployee {
         ytdTaxesPaid = ytdTaxesPaid.add(taxes);
 
         /**
-         * Return a new PayStub object
+         * creates and returns a new PayStub object.
          */
         return new PayStub(grossPay.doubleValue(), taxes.doubleValue());
 
@@ -146,7 +147,7 @@ public abstract class Employee implements IEmployee {
     }
 
     /**
-     * Calculates gross pay
+     * Calculates gross pay.
      * @param hoursWorked hours worked
      * @return gross pay
      */

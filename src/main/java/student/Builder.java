@@ -67,7 +67,7 @@ public final class Builder {
             return null;   //CSV format is incorrect
         }
 
-        try{
+        try {
             String employeeId = parts[0];
             double hours = Double.parseDouble(parts[1]);
             return new TimeCard(hours, employeeId);
