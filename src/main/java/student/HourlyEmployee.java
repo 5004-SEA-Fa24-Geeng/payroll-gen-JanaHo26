@@ -6,10 +6,10 @@ import java.math.RoundingMode;
 
 public class HourlyEmployee extends Employee {
     /** Overtime pay rate multiplier (1.5x regular pay). */
-    private static final double OVERTIME_RATE = 1.5;
+    private static final BigDecimal OVERTIME_RATE = new BigDecimal(1.5);
 
     /** Standard number of hours before overtime applied. */
-    private static final double REGULAR_HOURS = 40.0;
+    private static final BigDecimal REGULAR_HOURS = new BigDecimal(40.0);
 
 
     /**
@@ -31,17 +31,21 @@ public class HourlyEmployee extends Employee {
     }
     @Override
     protected BigDecimal calculateGrossPay(double hoursWorked) {
-        if (hoursWorked <= REGULAR_HOURS) {
-            return BigDecimal.valueOf(getPayRate() * hoursWorked)
+        BigDecimal hoursWorkedBigDecimal = new BigDecimal(String.valueOf(hoursWorked));
+        BigDecimal payRate = BigDecimal.valueOf(getPayRate());
+
+        if (hoursWorkedBigDecimal.compareTo(REGULAR_HOURS) <= 0) {
+            return payRate.multiply(hoursWorkedBigDecimal)
                     .setScale(SCALE, RoundingMode.HALF_UP);
         }
 
-        // Calculate regular pay for first 40 hours
-        BigDecimal regularPay = BigDecimal.valueOf(getPayRate() * REGULAR_HOURS);
+        // Calculate regular pay
+        BigDecimal regularPay = payRate.multiply(REGULAR_HOURS);
 
         // Calculate overtime pay
-        double overtimeHours = hoursWorked - REGULAR_HOURS;
-        BigDecimal overtimePay = BigDecimal.valueOf(overtimeHours * getPayRate() * OVERTIME_RATE);
+        BigDecimal overtimeHours = hoursWorkedBigDecimal.subtract(REGULAR_HOURS);
+        BigDecimal overtimePayRate = payRate.multiply(OVERTIME_RATE);
+        BigDecimal overtimePay = overtimeHours.multiply(overtimePayRate);
 
         return regularPay.add(overtimePay).setScale(SCALE, RoundingMode.HALF_UP);
     }
