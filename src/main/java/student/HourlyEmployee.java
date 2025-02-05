@@ -1,6 +1,7 @@
 package student;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 
 public class HourlyEmployee extends Employee {
@@ -36,14 +37,17 @@ public class HourlyEmployee extends Employee {
         BigDecimal overtimePay = BigDecimal.ZERO;
 
         if (hoursWorked <= REGULAR_HOURS) {
-            regularPay = BigDecimal.valueOf(getPayRate() * hoursWorked);
+            regularPay = BigDecimal.valueOf(getPayRate() * hoursWorked)
+                        .setScale(SCALE, RoundingMode.HALF_UP);
         } else {
-            regularPay = BigDecimal.valueOf(getPayRate() * REGULAR_HOURS);
+            regularPay = BigDecimal.valueOf(getPayRate() * REGULAR_HOURS)
+                        .setScale(SCALE, RoundingMode.HALF_UP);
             double overtimeHours = hoursWorked - REGULAR_HOURS;
-            overtimePay = BigDecimal.valueOf(overtimeHours * getPayRate() * OVERTIME_RATE);
+            overtimePay = BigDecimal.valueOf(overtimeHours * getPayRate() * OVERTIME_RATE)
+                        .setScale(SCALE, RoundingMode.HALF_UP);
         }
 
-        return regularPay.add(overtimePay);
+        return regularPay.add(overtimePay).setScale(SCALE, RoundingMode.HALF_UP);
     }
 
 }

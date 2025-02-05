@@ -138,9 +138,7 @@ public abstract class Employee implements IEmployee {
         ytdEarnings = ytdEarnings.add(grossPay);
         ytdTaxesPaid = ytdTaxesPaid.add(taxes);
 
-        /**
-         * creates and returns a new PayStub object.
-         */
+        //creates and returns a new PayStub object
         return new PayStub(grossPay.doubleValue(), taxes.doubleValue());
 
 
