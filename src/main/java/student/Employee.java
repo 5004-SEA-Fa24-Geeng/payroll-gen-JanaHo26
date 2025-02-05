@@ -139,7 +139,7 @@ public abstract class Employee implements IEmployee {
         BigDecimal netPay = afterDeductions.subtract(taxes);
 
         // YTD values
-        ytdEarnings = ytdEarnings.add(grossPay).setScale(SCALE, RoundingMode.HALF_UP);
+        ytdEarnings = ytdEarnings.add(netPay).setScale(SCALE, RoundingMode.HALF_UP);
         ytdTaxesPaid = ytdTaxesPaid.add(taxes).setScale(SCALE, RoundingMode.HALF_UP);
 
         //creates and returns a new PayStub object
