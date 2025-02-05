@@ -71,16 +71,25 @@ public final class PayrollGenerator {
         //YOUR CODE HERE
         // process each time card
         for (ITimeCard timeCard : timeCardList) {
-            // find the corresponding employee
-            for (IEmployee employee : employees) {
-                if (employee.getID().equals(timeCard.getEmployeeID())) {
-                    // process paystub and add to list
-                    IPayStub payStub = employee.runPayroll(timeCard.getHoursWorked());
-                    if (payStub != null) {
-                        payStubs.add(payStub);
-                    }
-                    break;
-                }
+            // Skip null time cards and those with negative hours
+            if (timeCard == null || timeCard.getHoursWorked() < 0) {
+                continue;  // Skip to next iteration
+            }
+
+            // Find matching employee
+            IEmployee employee = employees.stream()
+                    .filter(e -> e.getID().equals(timeCard.getEmployeeID()))
+                    .findFirst()
+                    .orElse(null);
+
+            if (employee == null) {
+                continue;  // Skip if no matching employee found
+            }
+
+            // Process payroll
+            IPayStub payStub = employee.runPayroll(timeCard.getHoursWorked());
+            if (payStub != null) {
+                payStubs.add(payStub);
             }
         }
 

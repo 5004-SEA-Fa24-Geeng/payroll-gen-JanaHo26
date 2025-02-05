@@ -51,6 +51,7 @@ public class PayStub implements IPayStub {
                 getPay(),
                 getTaxesPaid(),
                 employee.getYTDEarnings(),
-                employee.getYTDTaxesPaid());
+                employee.getYTDTaxesPaid()
+        );
     }
 }
