@@ -12,13 +12,13 @@ public abstract class Employee implements IEmployee {
     /** The employee's id. */
     private String id;
     /** The employee's pay rate per hour or salary depending on employee type. */
-    private double payRate;
+    private BigDecimal payRate;
     /** The employee's year to date earnings in dollars. */
     private BigDecimal ytdEarnings;
     /** The employee's year to dat taxes paid. */
     private BigDecimal ytdTaxesPaid;
     /** The employee's pretax deductions. */
-    private double pretaxDeductions;
+    private BigDecimal pretaxDeductions;
     /** The type of employee (hourly or salary). */
     private EmployeeType type;
 
@@ -67,12 +67,11 @@ public abstract class Employee implements IEmployee {
 
         this.name = name;
         this.id = id;
-        this.payRate = payRate;
+        this.payRate = BigDecimal.valueOf(payRate).setScale(SCALE, RoundingMode.HALF_UP);
         this.ytdEarnings = ytdEarnings.setScale(SCALE, RoundingMode.HALF_UP);
         this.ytdTaxesPaid = ytdTaxesPaid.setScale(SCALE, RoundingMode.HALF_UP);
-        this.pretaxDeductions = pretaxDeductions;
+        this.pretaxDeductions = BigDecimal.valueOf(pretaxDeductions).setScale(SCALE, RoundingMode.HALF_UP);
         this.type = type;
-
 
     }
 
@@ -88,6 +87,10 @@ public abstract class Employee implements IEmployee {
 
     @Override
     public double getPayRate() {
+        return payRate.doubleValue();
+    }
+
+    protected BigDecimal getPayRateBigDecimal() {
         return payRate;
     }
 
@@ -103,7 +106,7 @@ public abstract class Employee implements IEmployee {
 
     @Override
     public double getPretaxDeductions() {
-        return pretaxDeductions;
+        return pretaxDeductions.doubleValue();
     }
 
     /**
@@ -126,10 +129,11 @@ public abstract class Employee implements IEmployee {
         BigDecimal grossPay = calculateGrossPay(hoursWorked);
 
         //subtract pretax deductions from gross pay
-        BigDecimal afterDeductions = grossPay.subtract(BigDecimal.valueOf(pretaxDeductions));
+        BigDecimal afterDeductions = grossPay.subtract(pretaxDeductions);
 
         //Calculate taxes based on earnings after deductions
-        BigDecimal taxes = afterDeductions.multiply(TAX_RATE).setScale(SCALE, RoundingMode.HALF_UP);
+        BigDecimal taxes = afterDeductions.multiply(TAX_RATE)
+                            .setScale(SCALE, RoundingMode.HALF_UP);
 
         //Calculate net pay after taxes
         BigDecimal netPay = afterDeductions.subtract(taxes);
@@ -154,8 +158,11 @@ public abstract class Employee implements IEmployee {
     @Override
     public String toCSV() {
         return String.format("%s,%s,%s,%.2f,%.2f,%.2f,%.2f",
-                type.name(), name, id, payRate, pretaxDeductions,
-                ytdEarnings.doubleValue(), ytdTaxesPaid.doubleValue());
+                type.name(), name, id,
+                payRate.doubleValue(),
+                pretaxDeductions.doubleValue(),
+                ytdEarnings.doubleValue(),
+                ytdTaxesPaid.doubleValue());
     }
 }
 
