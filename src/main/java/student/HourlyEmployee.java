@@ -40,19 +40,22 @@ public class HourlyEmployee extends Employee {
         BigDecimal payRateBD = BigDecimal.valueOf(getPayRate());
         BigDecimal hoursWorkedBD = BigDecimal.valueOf(hoursWorked);
 
-        BigDecimal regularHoursBD = REGULAR_HOURS.min(hoursWorkedBD);
+        BigDecimal regularHoursBD = hoursWorkedBD.min(REGULAR_HOURS);
         // Regular pay for first 40 hours
         BigDecimal regularPay = payRateBD.multiply(regularHoursBD);
 
         // Overtime hours
-        BigDecimal overtimeHours = hoursWorkedBD.subtract(REGULAR_HOURS).max(BigDecimal.ZERO);
-        // Overtime pay calculation
-        BigDecimal overtimePay = payRateBD
-                .multiply(OVERTIME_RATE)
-                .multiply(overtimeHours);
+        BigDecimal overtimePay = BigDecimal.ZERO;
+        if (hoursWorkedBD.compareTo(REGULAR_HOURS) > 0) {
+            BigDecimal overtimeHours = hoursWorkedBD.subtract(REGULAR_HOURS);
+            overtimePay = payRateBD
+                    .multiply(OVERTIME_RATE)
+                    .multiply(overtimeHours);
+        }
 
         return regularPay.add(overtimePay)
                 .setScale(SCALE, RoundingMode.HALF_UP);
+
     }
 }
 
