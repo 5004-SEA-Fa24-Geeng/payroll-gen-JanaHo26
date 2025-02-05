@@ -29,27 +29,44 @@ public class HourlyEmployee extends Employee {
                 BigDecimal.valueOf(ytdTaxesPaid),
                 pretaxDeductions, EmployeeType.HOURLY);
     }
-
-
     @Override
     protected BigDecimal calculateGrossPay(double hoursWorked) {
-        BigDecimal regularPay;
-        BigDecimal overtimePay = BigDecimal.ZERO;
-
         if (hoursWorked <= REGULAR_HOURS) {
-            regularPay = BigDecimal.valueOf(getPayRate() * hoursWorked)
-                        .setScale(SCALE, RoundingMode.HALF_UP);
-        } else {
-            regularPay = BigDecimal.valueOf(getPayRate() * REGULAR_HOURS)
-                        .setScale(SCALE, RoundingMode.HALF_UP);
-            double overtimeHours = hoursWorked - REGULAR_HOURS;
-            overtimePay = BigDecimal.valueOf(overtimeHours * getPayRate() * OVERTIME_RATE)
-                        .setScale(SCALE, RoundingMode.HALF_UP);
+            return BigDecimal.valueOf(getPayRate() * hoursWorked)
+                    .setScale(SCALE, RoundingMode.HALF_UP);
         }
+
+        // Calculate regular pay for first 40 hours
+        BigDecimal regularPay = BigDecimal.valueOf(getPayRate() * REGULAR_HOURS);
+
+        // Calculate overtime pay
+        double overtimeHours = hoursWorked - REGULAR_HOURS;
+        BigDecimal overtimePay = BigDecimal.valueOf(overtimeHours * getPayRate() * OVERTIME_RATE);
 
         return regularPay.add(overtimePay).setScale(SCALE, RoundingMode.HALF_UP);
     }
-
 }
+
+
+//    @Override
+//    protected BigDecimal calculateGrossPay(double hoursWorked) {
+//        BigDecimal regularPay;
+//        BigDecimal overtimePay = BigDecimal.ZERO;
+//
+//        if (hoursWorked <= REGULAR_HOURS) {
+//            regularPay = BigDecimal.valueOf(getPayRate() * hoursWorked)
+//                        .setScale(SCALE, RoundingMode.HALF_UP);
+//        } else {
+//            regularPay = BigDecimal.valueOf(getPayRate() * REGULAR_HOURS)
+//                        .setScale(SCALE, RoundingMode.HALF_UP);
+//            double overtimeHours = hoursWorked - REGULAR_HOURS;
+//            overtimePay = BigDecimal.valueOf(overtimeHours * getPayRate() * OVERTIME_RATE)
+//                        .setScale(SCALE, RoundingMode.HALF_UP);
+//        }
+//
+//        return regularPay.add(overtimePay).setScale(SCALE, RoundingMode.HALF_UP);
+//    }
+//
+//}
 
 
