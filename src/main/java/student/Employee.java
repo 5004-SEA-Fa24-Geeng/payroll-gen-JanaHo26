@@ -143,7 +143,7 @@ public abstract class Employee implements IEmployee {
         ytdTaxesPaid = ytdTaxesPaid.add(taxes).setScale(SCALE, RoundingMode.HALF_UP);
 
         //creates and returns a new PayStub object
-        return new PayStub(grossPay.doubleValue(), taxes.doubleValue());
+        return new PayStub(this, netPay.doubleValue(), taxes.doubleValue());
 
 
     }
