@@ -68,8 +68,8 @@ public abstract class Employee implements IEmployee {
         this.name = name;
         this.id = id;
         this.payRate = payRate;
-        this.ytdEarnings = ytdEarnings;
-        this.ytdTaxesPaid = ytdTaxesPaid;
+        this.ytdEarnings = ytdEarnings.setScale(SCALE, RoundingMode.HALF_UP);
+        this.ytdTaxesPaid = ytdTaxesPaid.setScale(SCALE, RoundingMode.HALF_UP);
         this.pretaxDeductions = pretaxDeductions;
         this.type = type;
 
@@ -135,8 +135,8 @@ public abstract class Employee implements IEmployee {
         BigDecimal netPay = afterDeductions.subtract(taxes);
 
         // YTD values
-        ytdEarnings = ytdEarnings.add(grossPay);
-        ytdTaxesPaid = ytdTaxesPaid.add(taxes);
+        ytdEarnings = ytdEarnings.add(grossPay).setScale(SCALE, RoundingMode.HALF_UP);
+        ytdTaxesPaid = ytdTaxesPaid.add(taxes).setScale(SCALE, RoundingMode.HALF_UP);
 
         //creates and returns a new PayStub object
         return new PayStub(grossPay.doubleValue(), taxes.doubleValue());
